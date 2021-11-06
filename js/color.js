@@ -1,4 +1,6 @@
 let mybox = document.querySelector("#mybox");
+let myhint1 = document.querySelector("#myhint1");
+let myhint2 = document.querySelector("#myhint2");
 
 let timerid;
 
@@ -13,7 +15,7 @@ function click1(e) {
 
   if (e.detail === 1) {
 
-    timerid = setTimeout(setColor, 300);
+    timerid = setTimeout(setColor, 400);
   }
 }
 
@@ -31,33 +33,43 @@ function click2(e) {
 
 function setColor() {
 
-  var col1 = colorize();
-  var col2 = colorize();
+  let col1 = colorize();
+  let col2 = colorize();
 
-  mybox.style.color = col1;
-  mybox.style.backgroundColor = col2;
+  changeColors(col1, col2);
 
   window.localStorage.setItem("mycolor1", col1);
   window.localStorage.setItem("mycolor2", col2);
 
-  logize("front-col: " + col1 + ", back-col: " + col2);
+  logize("color: " + col1 + "\nbackground-color: " + col2);
 }
 
 function tellColor() {
 
-  var col1 = window.localStorage.getItem("mycolor1");
-  var col2 = window.localStorage.getItem("mycolor2");
+  let col1 = window.localStorage.getItem("mycolor1");
+  let col2 = window.localStorage.getItem("mycolor2");
 
-  headize("front-col: " + col1 + ", back-col: " + col2);
+  headize("color: " + col1 + "\nbackground-color: " + col2);
 }
 
 function bootColor() {
 
-  var col1 = window.localStorage.getItem("mycolor1");
-  var col2 = window.localStorage.getItem("mycolor2");
+  let col1 = window.localStorage.getItem("mycolor1");
+  let col2 = window.localStorage.getItem("mycolor2");
+
+  changeColors(col1, col2);
+}
+
+function changeColors(col1, col2) {
 
   mybox.style.color = col1;
   mybox.style.backgroundColor = col2;
+
+  myhint1.style.color = col2;
+  myhint1.style.backgroundColor = col1;
+
+  myhint2.style.color = col2;
+  myhint2.style.backgroundColor = col1;
 }
 
 // colorize

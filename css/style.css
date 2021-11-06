@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+:root {
+  --framew   : 320px;
+  --frameh   : 150px;
+  --rectw    : 250px;
+  --recth    : 40px;
+  --sizetiny : 2px;
+  --sizesmall: 5px;
+  --sizestd  : 20px;
+  --sizebig  : 40px;
+  --sizehuge : 60px;
+  --offseth  : -0.4;
+  --shifth   : calc(0.5 * calc(var(--framew) - var(--rectw)));
+  --shiftv   : calc(var(--offseth) * calc(var(--recth) + var(--sizestd)));
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,26 +25,42 @@ body {
 }
 
 .fixed {
-  background-color: brown;
-  position        : fixed;
-  top             : 50%; /* origin x */
-  left            : 50%; /* origin y */
-  width           : 500px; /* size x */
-  height          : 300px; /* size y */
-  margin-left     : -250px; /* shift x */
-  margin-top      : -150px; /* shift y */
-  border-radius   : 10px;
+  position     : absolute;
+  top          : 50%; /* origin x */
+  left         : 50%; /* origin y */
+  width        : var(--framew); /* size x */
+  height       : var(--frameh); /* size y */
+  margin-left  : calc(-0.5 * var(--framew)); /* shift x */
+  margin-top   : calc(-0.5 * var(--frameh)); /* shift y */
+  border-radius: var(--sizebig);
 }
 
-/* .fixed :hover {
-  background-color: green;
-  color : white;
-} */
+.rect {
+  margin     : var(--sizetiny);
+  width      : var(--rectw);
+  height     : var(--recth);
+  font-size  : var(--sizestd);
+  font-weight: 400;
+}
+
+.shift1 {
+  position     : absolute;
+  top          : var(--shiftv);
+  left         : var(--shifth);
+  border-radius: var(--sizestd) var(--sizestd) 0 0;
+}
+
+.shift2 {
+  position     : absolute;
+  bottom       : var(--shiftv);
+  left         : var(--shifth);
+  border-radius: 0 0 var(--sizestd) var(--sizestd);
+}
 
 .centered {
-  display: flex;
+  display        : flex;
+  align-items    : center;
   justify-content: center;
-  align-items: center;
 }
 
 .noselect {
@@ -42,6 +73,6 @@ body {
 }
 
 p {
-  font-size: 100px;
+  font-size  : var(--sizehuge);
   font-weight: 700;
 }
