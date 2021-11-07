@@ -1,5 +1,6 @@
 // variables
 
+let mybody = document.querySelector("#mybody");
 let mybox = document.querySelector("#mybox");
 let myhint1 = document.querySelector("#myhint1");
 let myhint2 = document.querySelector("#myhint2");
@@ -28,21 +29,29 @@ function click(e) {
 
   if (ccount == 1) {
 
-    timerid = setTimeout(() => { ccount = 0; renewColor(); }, 400);
+    timerid = setTimeout(() => { ccount = 0; gradeColors(false); localStorage.setItem("grade", "off"); renewColors(); }, 300);
   }
   else if (ccount == 2) {
+
+    let grade = (localStorage.getItem("grade") != null) ? localStorage.getItem("grade") : "on";
 
     ccount = 0;
 
     clearTimeout(timerid);
 
-    proposeColor();
+    proposeColors();
+
+    gradeColors(grade == "on");
+
+    grade = grade == "on" ? "off" : "on";
+
+    localStorage.setItem("grade", grade);
   }
 };
 
-// one click
+// 1-click -> renew colors
 
-function renewColor() {
+function renewColors(silent = false) {
 
   myinfo1.textContent = myinfo2.textContent = "";
 
@@ -51,20 +60,23 @@ function renewColor() {
 
   changeColors(col1, col2);
 
-  window.localStorage.setItem("mycolor1", col1);
-  window.localStorage.setItem("mycolor2", col2);
+  localStorage.setItem("mycolor1", col1);
+  localStorage.setItem("mycolor2", col2);
 
-  logize(getInfo(col1, col2));
+  if (silent) {
+
+    logize(makeInfo(col1, col2));
+  }
 }
 
-// double click
+// 2-click -> propose colors
 
-function proposeColor() {
+function proposeColors() {
 
-  col1 = window.localStorage.getItem("mycolor1");
-  col2 = window.localStorage.getItem("mycolor2");
+  col1 = localStorage.getItem("mycolor1");
+  col2 = localStorage.getItem("mycolor2");
 
-  let info = getInfo(col1, col2);
+  let info = makeInfo(col1, col2);
 
   let ind = info.indexOf('\n');
 
@@ -73,25 +85,19 @@ function proposeColor() {
 
   navigator.clipboard.writeText(info);
 
-//headize(info); // provoke an error
+//headize(info); // provoke [Violation] 'click' handler took 2024ms
 }
 
-function getInfo(col1, col2) {
+// make info
+
+function makeInfo(col1, col2) {
 
   myinfo1.textContent = myinfo2.textContent = "";
 
   return "color: " + col1 + ";\nbackground-color: " + col2 + ";";
 }
 
-function bootColor() {
-
-  col1 = window.localStorage.getItem("mycolor1");
-  col2 = window.localStorage.getItem("mycolor2");
-
-  changeColors(col1, col2);
-
-  logize(getInfo(col1, col2));
-}
+// change colors
 
 function changeColors(col1, col2) {
 
@@ -108,18 +114,47 @@ function changeColors(col1, col2) {
   myinfo2.style.color = col2;
 }
 
+// grade colors
+
+function gradeColors(grade) {
+
+  col1 = grade ? localStorage.getItem("mycolor1") : "white";
+  col2 = grade ? localStorage.getItem("mycolor2") : "white";
+
+  mybody.style.background = "linear-gradient(" + col1 + "," + col2 + ")";
+}
+
+// boot colors
+
+function bootColors() {
+
+  if (localStorage.getItem("mycolor1") != null && localStorage.getItem("mycolor2") != null) {
+
+    col1 = localStorage.getItem("mycolor1");
+    col2 = localStorage.getItem("mycolor2");
+  }
+  else {
+
+    renewColors(true);
+  }
+
+  changeColors(col1, col2);
+
+  logize(makeInfo(col1, col2));
+}
+
 // colorize
 
 function colorize() {
 
-  return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+  return '#' + Math.random().toString(16).slice(-6);
 }
 
 // headize
 
 function headize(message) {
 
-  window.alert(message);
+  alert(message);
 }
 
 // logize

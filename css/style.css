@@ -26,6 +26,8 @@
 
 body {
   margin     : 0;
+  width      : 100vw;
+  height     : 100vh;
   font-family: "Roboto", sans-serif;
 }
 
@@ -74,7 +76,6 @@ body {
   position     : absolute;
   bottom       : var(--decalv);
   left         : var(--decalh);
-  border-radius: 0 0 var(--sizestd) var(--sizestd); /* round corners */
 }
 
 .centered {
@@ -91,12 +92,12 @@ body {
 }
 
 .noselect {
+  user-select          : none; /* chrome and opera */
+  -moz-user-select     : none; /* firefox */
   -webkit-touch-callout: none; /* ios safari */
-    -webkit-user-select: none; /* safari */
-     -khtml-user-select: none; /* konqueror HTML */
-       -moz-user-select: none; /* firefox */
-        -ms-user-select: none; /* internet explorer/edge */
-            user-select: none; /* chrome and opera */
+  -webkit-user-select  : none; /* safari */
+  -khtml-user-select   : none; /* konqueror HTML */
+  -ms-user-select      : none; /* internet explorer/edge */
 }
 
 p {
