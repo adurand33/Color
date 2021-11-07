@@ -5,14 +5,19 @@
   --frameh   : 150px;
   --rectw    : 250px;
   --recth    : 40px;
+  --infow    : 250px;
+  --infoh    : 60px;
   --sizetiny : 2px;
   --sizesmall: 5px;
   --sizestd  : 20px;
   --sizebig  : 40px;
   --sizehuge : 60px;
-  --offseth  : -0.4;
+  --ratio1h  : -0.4;
+  --ratio2h  : -1.2;
   --shifth   : calc(0.5 * calc(var(--framew) - var(--rectw)));
-  --shiftv   : calc(var(--offseth) * calc(var(--recth) + var(--sizestd)));
+  --shiftv   : calc(var(--ratio1h) * calc(var(--recth) + var(--sizestd)));
+  --decalh   : calc(0.5 * calc(var(--framew) - var(--infow)));
+  --decalv   : calc(var(--ratio2h) * calc(var(--infoh) + var(--sizestd)));
 }
 
 * {
@@ -43,6 +48,14 @@ body {
   font-weight: 400;
 }
 
+.info {
+  margin     : var(--sizetiny);
+  width      : var(--infow);
+  height     : var(--infoh);
+  font-size  : var(--sizestd);
+  font-weight: 400;
+}
+
 .shift1 {
   position     : absolute;
   top          : var(--shiftv);
@@ -54,12 +67,26 @@ body {
   position     : absolute;
   bottom       : var(--shiftv);
   left         : var(--shifth);
-  border-radius: 0 0 var(--sizestd) var(--sizestd);
+  border-radius: 0 0 var(--sizestd) var(--sizestd); /* round corners */
+}
+
+.shift3 {
+  position     : absolute;
+  bottom       : var(--decalv);
+  left         : var(--decalh);
+  border-radius: 0 0 var(--sizestd) var(--sizestd); /* round corners */
 }
 
 .centered {
   display        : flex;
   align-items    : center;
+  justify-content: center;
+}
+
+.left {
+  display        : flex;
+  flex-direction : column;
+  align-items    : flex-start;
   justify-content: center;
 }
 

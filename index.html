@@ -6,14 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <script defer src="js/color.js"></script>
-  <title>Color</title>
+  <title>Colorizer</title>
 </head>
 <body onload="bootColor()">
 
   <div id="mybox" class="fixed centered noselect">
-    <div id="myhint1" class="rect shift1 centered">One tap to color</div>
+    <div id="myhint1" class="rect shift1 centered">Tap to get color</div>
     <p>Colorizer</p>
-    <div id="myhint2" class="rect shift2 centered">Two taps to get codes</div>
+    <div id="myhint2" class="rect shift2 centered">Tap-tap to copy color</div>
+    <div class="info shift3 left">
+      <span id="myinfo1"></span>
+      <span id="myinfo2"></span>
+    </div>
   </div>
 
 </body>

@@ -1,63 +1,96 @@
+// variables
+
 let mybox = document.querySelector("#mybox");
 let myhint1 = document.querySelector("#myhint1");
 let myhint2 = document.querySelector("#myhint2");
+let myinfo1 = document.querySelector("#myinfo1");
+let myinfo2 = document.querySelector("#myinfo2");
 
 let timerid;
+let col1;
+let col2;
 
 // listener
 
-mybox.addEventListener("click", click1);
-mybox.addEventListener('dblclick', click2);
+mybox.addEventListener("click", click);
 
-// click
+// event
 
-function click1(e) {
+let ccount = 0;
 
-  if (e.detail === 1) {
+function click(e) {
 
-    timerid = setTimeout(setColor, 400);
+  let myid = e.target.id;
+
+  if (myid == "myinfo1" || myid == "myinfo2") return;
+
+  ccount++;
+
+  if (ccount == 1) {
+
+    timerid = setTimeout(() => { ccount = 0; renewColor(); }, 400);
   }
-}
+  else if (ccount == 2) {
 
-function click2(e) {
-
-  if (e.detail === 2) {
-
-    tellColor();
+    ccount = 0;
 
     clearTimeout(timerid);
+
+    proposeColor();
   }
-}
+};
 
-// implement
+// one click
 
-function setColor() {
+function renewColor() {
 
-  let col1 = colorize();
-  let col2 = colorize();
+  myinfo1.textContent = myinfo2.textContent = "";
+
+  col1 = colorize();
+  col2 = colorize();
 
   changeColors(col1, col2);
 
   window.localStorage.setItem("mycolor1", col1);
   window.localStorage.setItem("mycolor2", col2);
 
-  logize("color: " + col1 + "\nbackground-color: " + col2);
+  logize(getInfo(col1, col2));
 }
 
-function tellColor() {
+// double click
 
-  let col1 = window.localStorage.getItem("mycolor1");
-  let col2 = window.localStorage.getItem("mycolor2");
+function proposeColor() {
 
-  headize("color: " + col1 + "\nbackground-color: " + col2);
+  col1 = window.localStorage.getItem("mycolor1");
+  col2 = window.localStorage.getItem("mycolor2");
+
+  let info = getInfo(col1, col2);
+
+  let ind = info.indexOf('\n');
+
+  myinfo1.textContent = info.slice(0, ind);
+  myinfo2.textContent = info.slice(ind, info.length)
+
+  navigator.clipboard.writeText(info);
+
+//headize(info); // provoke an error
+}
+
+function getInfo(col1, col2) {
+
+  myinfo1.textContent = myinfo2.textContent = "";
+
+  return "color: " + col1 + ";\nbackground-color: " + col2 + ";";
 }
 
 function bootColor() {
 
-  let col1 = window.localStorage.getItem("mycolor1");
-  let col2 = window.localStorage.getItem("mycolor2");
+  col1 = window.localStorage.getItem("mycolor1");
+  col2 = window.localStorage.getItem("mycolor2");
 
   changeColors(col1, col2);
+
+  logize(getInfo(col1, col2));
 }
 
 function changeColors(col1, col2) {
@@ -70,6 +103,9 @@ function changeColors(col1, col2) {
 
   myhint2.style.color = col2;
   myhint2.style.backgroundColor = col1;
+
+  myinfo1.style.color = col1;
+  myinfo2.style.color = col2;
 }
 
 // colorize
